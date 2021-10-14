@@ -19,7 +19,6 @@ struct ContentView: View {
     @State var bigPizzaFrame:(CGFloat, CGFloat) = (200, 200)
     
     @State var selected = false
-    //@Binding var secondStart: Bool
     public var body: some View {
             ZStack {
                 Image(uiImage: UIImage(named: "1BACKGROUND")!)
@@ -40,10 +39,10 @@ struct ContentView: View {
                     .resizable()
                     .offset(x: 80, y: eraptionYCoordinate)
                     .onAppear {
-                        withAnimation(.easeIn(duration: 5).delay(12)) {
+                        withAnimation(.easeIn(duration: 1).delay(12)) {
                             eraptionYCoordinate = -200
                         }
-                        withAnimation(.easeIn(duration: 2).delay(18)) {
+                        withAnimation(.easeIn(duration: 1).delay(13)) {
                             eraptionYCoordinate = -600
                         }
                     }
@@ -53,7 +52,7 @@ struct ContentView: View {
                     .rotationEffect(.degrees(smallPizzaRotationDegree))
                     .offset(x: 115, y: smallPizzaYCoordinate)
                     .onAppear {
-                        withAnimation(.easeIn(duration: 2).delay(15)) {
+                        withAnimation(.easeIn(duration: 1).delay(12.5)) {
                             smallPizzaYCoordinate = -400
                             smallPizzaRotationDegree = 200
                         }
@@ -75,10 +74,10 @@ struct ContentView: View {
                     .rotationEffect(.degrees(-20))
                     .offset(x: -50, y: bigEraptionYCoordinate)
                     .onAppear {
-                        withAnimation(.easeIn(duration: 3).delay(18)) {
+                        withAnimation(.easeIn(duration: 2).delay(13.5)) {
                             bigEraptionYCoordinate = -80
                         }
-                        withAnimation(.easeIn(duration: 3).delay(20)) {
+                        withAnimation(.easeIn(duration: 2).delay(15.5)) {
                             bigEraptionFrame = (100,0)
                             bigEraptionYCoordinate = 300
                         }
@@ -89,22 +88,22 @@ struct ContentView: View {
                     .rotationEffect(.degrees(bigPizzaRotationDegree))
                     .offset(x: bigPizzaXCoordinate, y: bigPizzaYCoordinate)
                     .onAppear {
-                        withAnimation(.easeIn(duration: 2).delay(17)) {
+                        withAnimation(.easeIn(duration: 1).delay(13)) { // 17
                             bigPizzaYCoordinate = 200
                             bigPizzaRotationDegree = 0
                         }
-                        withAnimation(.easeIn(duration: 2).delay(21)) {
+                        withAnimation(.easeIn(duration: 1).delay(15.5)) { //21
                             bigPizzaFrame = (300,300)
                         }
-                        withAnimation(.easeIn(duration: 0.5).delay(23)) {
+                        withAnimation(.easeIn(duration: 0.5).delay(25)) { //23
                             bigPizzaRotationDegree = -30
                         }
-                        withAnimation(.easeIn(duration: 0.5).delay(24)) {
+                        withAnimation(.easeIn(duration: 0.5).delay(25.5)) { //24
                             bigPizzaXCoordinate = 400
                             bigPizzaRotationDegree = 200
                             
                             }
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 25.5 ) {
                             willMoveToSecondScreen = true
                         }
                     }
@@ -116,42 +115,33 @@ struct ContentView: View {
         }
     
     func playAudio() {
-            
-            /// the URL of the audio file.
-            /// forResource = name of the file.
-            /// withExtension = extension, usually "mp3"
-            if let audioURL = Bundle.main.url(forResource: "PIZZAMUSIC", withExtension: "m4a") {
-                    do {
-                            try self.audioPlayer = AVAudioPlayer(contentsOf: audioURL) /// make the audio player
-                            self.audioPlayer?.numberOfLoops = 0 /// Number of times to loop the audio
-                            self.audioPlayer?.play() /// start playing
-                            
-                    } catch {
-                            print("Couldn't play audio. Error: \(error)")
-                    }
-                    
-            } else {
-                    print("No audio file found")
+        if let audioURL = Bundle.main.url(forResource: "PIZZAMUSIC", withExtension: "m4a") {
+            do {
+                try self.audioPlayer = AVAudioPlayer(contentsOf: audioURL)
+                self.audioPlayer?.numberOfLoops = 0
+                self.audioPlayer?.play()
+                
+            } catch {
+                print("Couldn't play audio. Error: \(error)")
             }
+            
+        } else {
+            print("No audio file found")
+        }
     }
-    }
-        
+}
+
 
 
 // MARK: - Second Scene
 public struct SecondSceneContentView: View {
-   // @Binding var secondStart: Bool
-    
     @State private var willMoveToThirdScreen = false
-    
     @State private var offsetForBackground: CGFloat = 2100
-    
     @State private var pizzaOffsetX: CGFloat = 140
     @State private var pizzaOffsetY: CGFloat = 140
     @State private var pizzaRotationEffect: CGFloat = 360
     @State private var pizzaFrameWidth: CGFloat = 80
     @State private var pizzaFrameHeight: CGFloat = 80
-    
     @State private var earthFrameWidth: CGFloat = 450
     @State private var earthFrameHeight: CGFloat = 600
     @State private var earthBlur: CGFloat = 0
@@ -214,7 +204,7 @@ public struct SecondSceneContentView: View {
                             }
                         }
                     }
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 6.5) {
                         willMoveToThirdScreen = true
                     }
                 }
@@ -260,6 +250,10 @@ struct ThirdSceneContentView: View {
                     withAnimation(.linear(duration: 2)) {
                         humanOffsetX = 100
                     }
+                    withAnimation(.linear(duration: 2).delay(12)) {
+                        humanOffsetX = 350
+                    }
+                    
                 }
             
             Image(uiImage: UIImage(named: "3pizza")!)
@@ -272,11 +266,11 @@ struct ThirdSceneContentView: View {
                         pizzaOffsetX = -120
                         pizzaRotationEffect = 360
                     }
-                    withAnimation(.easeIn(duration: 2).delay(5)) {
+                    withAnimation(.easeIn(duration: 2).delay(12)) {
                         pizzaOffsetX = -350
                         pizzaRotationEffect = 0
                     }
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 13) {
                         willMoveToFourthScreen = true
                     }
                 }
@@ -320,6 +314,9 @@ struct FourthSceneContentView: View {
                     withAnimation(.linear(duration: 2)) {
                         humanOffsetX = 0
                     }
+                    withAnimation(.linear(duration: 1).delay(10)) {
+                        humanOffsetX = 350
+                    }
                 }
             
             Image(uiImage: UIImage(named: "4pizza")!)
@@ -332,11 +329,11 @@ struct FourthSceneContentView: View {
                         pizzaOffsetX = -120
                         pizzaRotationEffect = 360
                     }
-                    withAnimation(.easeIn(duration: 2).delay(5)) {
+                    withAnimation(.easeIn(duration: 1).delay(10)) {
                         pizzaOffsetX = -350
                         pizzaRotationEffect = 0
                     }
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 11) {
                         willMoveToFifthScreen = true
                     }
                 }
@@ -352,7 +349,7 @@ struct FifthSceneContentView: View {
     @State private var willMoveToSixthScreen = false
     
     @State private var pizzaOffsetX: CGFloat = -350
-    @State private var pizzaOffsetY: CGFloat = 200
+    @State private var pizzaOffsetY: CGFloat = 230
     
     @State private var millOffsetX: CGFloat = 0
     @State private var millOffsetY: CGFloat = 0
@@ -388,6 +385,9 @@ struct FifthSceneContentView: View {
                     withAnimation(.linear(duration: 2)) {
                         humanOffsetX = 100
                     }
+                    withAnimation(.linear(duration: 1).delay(10)) {
+                        humanOffsetX = 350
+                    }
                 }
             
             Image(uiImage: UIImage(named: "5pizza")!)
@@ -400,11 +400,11 @@ struct FifthSceneContentView: View {
                         pizzaOffsetX = -120
                         pizzaRotationEffect = 360
                     }
-                    withAnimation(.easeIn(duration: 2).delay(5)) {
+                    withAnimation(.easeIn(duration: 1).delay(10)) {
                         pizzaOffsetX = -350
                         pizzaRotationEffect = 0
                     }
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 11) {
                         willMoveToSixthScreen = true
                     }
                 }
@@ -478,57 +478,57 @@ struct SixthSceneContentView: View {
                 .offset(x: pizzaOffsetX, y: pizzaOffsetY)
                 .opacity(normPizzaOpacity)
                 .onAppear {
-                    withAnimation(.linear(duration: 1)) {
+                    withAnimation(.linear(duration: 2)) {
                         tears1Opacity = 1.0
                         tears2Opacity = 0.0
                         tears3Opacity = 0.0
                         tears4Opacity = 0.0
                     }
-                    withAnimation(.linear(duration: 1).delay(1)) {
+                    withAnimation(.linear(duration: 2).delay(2)) {
                         tears1Opacity = 0.0
                         tears2Opacity = 1.0
                         tears3Opacity = 0.0
                         tears4Opacity = 0.0
                     }
-                    withAnimation(.linear(duration: 1).delay(2)) {
+                    withAnimation(.linear(duration: 2).delay(4)) {
                         tears1Opacity = 0.0
                         tears2Opacity = 0.0
                         tears3Opacity = 1.0
                         tears4Opacity = 0.0
                     }
-                    withAnimation(.linear(duration: 1).delay(3)) {
+                    withAnimation(.linear(duration: 2).delay(6)) {
                         tears1Opacity = 0.0
                         tears2Opacity = 0.0
                         tears3Opacity = 0.0
                         tears4Opacity = 1.0
                     }
-                    withAnimation(.linear(duration: 1).delay(5)) {
+                    withAnimation(.linear(duration: 2).delay(8)) {
                         tears1Opacity = 0.0
                         tears2Opacity = 0.0
                         tears3Opacity = 0.0
                         tears4Opacity = 0.0
                     }
-                    withAnimation(.linear(duration: 3).delay(6)) {
+                    withAnimation(.linear(duration: 8).delay(11)) {
                         pizzaOffsetY = 20
                         pizzaOffsetX = 0
                         humanOffsetX = 170
                     }
-                    withAnimation(.linear(duration: 1).delay(9)) {
+                    withAnimation(.linear(duration: 1).delay(29)) {
                         normPizzaOpacity = 0
                         cutPizzaOpacity = 1
                     }
-                    withAnimation(.linear(duration: 1).delay(11)) {
+                    withAnimation(.linear(duration: 1).delay(30)) {
                         firstHumanOpacity = 0.0
                         secondHumanOpacity = 1.0
                     }
                     
-                    withAnimation(.linear(duration: 1).delay(15)) {
+                    withAnimation(.linear(duration: 1).delay(33)) {
                         secondHumanOpacity = 0.0
                         thirdHumanOpacity = 1.0
                         cloudsOpacity = 0
                         sunOffsetY = -70
                     }
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 34) {
                         willMoveToSeventhScreen = true
                     }
                 }
@@ -597,15 +597,24 @@ struct SeventhSceneContentView: View {
     @State private var opacity: CGFloat = 0
     @State private var yPositionBg1: CGFloat = 0
     @State private var yPositionBg2: CGFloat = -1400
+    @State private var endPizzaOpacity: CGFloat = 0
+    @State private var allOpacity: CGFloat = 1
     
     var body: some View {
         
         ZStack {
             // Secound Background
+            Image(uiImage: UIImage(named: "7endPizza")!)
+                .resizable()
+                .frame(width: 500, height: 300)
+                
+                .opacity(endPizzaOpacity)
+            
             Image(uiImage: UIImage(named: "7ANIMATEDBACKGROUND")!)
                 .scaledToFit()
                 .frame(width: 500, height: 700)
                 .position(CGPoint(x: 0, y: yPositionBg2))
+                .opacity(allOpacity)
                 .onAppear {
                     withAnimation(.easeIn(duration: 30).delay(0)) {
                         yPositionBg2 = 0
@@ -617,14 +626,21 @@ struct SeventhSceneContentView: View {
                     
                     Image(uiImage: UIImage(named: "7WORLD1")!)
                         .resizable()
+                        .frame(width: 500, height: 700)
                     
                     Image(uiImage: UIImage(named: "7WORLD2")!)
+                        .resizable()
+                        .frame(width: 500, height: 700)
                     
                     PizzaParty().frame(width: 400, height: 400, alignment: .bottom)
                         .opacity(opacity)
                         .onAppear {
                             withAnimation(.easeIn(duration: 1).delay(0)) {
                                 opacity = 1
+                            }
+                            withAnimation(.linear(duration: 0.6).delay(7)) {
+                                allOpacity = 0
+                                endPizzaOpacity = 1
                             }
                         }
                 }
@@ -637,13 +653,11 @@ struct SeventhSceneContentView: View {
                     .multilineTextAlignment(.center)
                 
             }
+            .opacity(allOpacity)
         }
         .frame(width: 500, height: 700)
         .background(.black)
-        
     }
-    
-    
 }
 
 struct PizzaParty: View {
